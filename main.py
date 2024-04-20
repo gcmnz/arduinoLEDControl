@@ -3,12 +3,15 @@ import sys
 from PyQt5.QtWidgets import QWidget, QApplication, QVBoxLayout, QLabel, QSlider, QPushButton
 from PyQt5.Qt import Qt
 
+from src import CSS_STYLES, FONT_STYLE
+
 
 class MainWindow(QWidget):
     def __init__(self) -> None:
         super().__init__()
         self.setWindowTitle('Управление светодиодом на Arduino Nano v3')
-        self.setMinimumSize(200, 200)
+        self.setMinimumSize(400, 200)
+        self.setStyleSheet(CSS_STYLES)
 
         self.__value: int = 0
         self.__status: bool = False
@@ -22,8 +25,8 @@ class MainWindow(QWidget):
             False: 'Turn on'
         }
 
-        self.__info_label = QLabel(f'Value: {self.__value}     Status: {self.__label_statuses[self.__status]}')
-        self.__info_label.setAlignment(Qt.AlignHCenter)
+        self.__info_label = QLabel(f"{FONT_STYLE}Value: {self.__value}     Status: {self.__label_statuses[self.__status]}</font>")
+        self.__info_label.setAlignment(Qt.AlignCenter)
 
         # Ползунок установки яркости светодиода
         self.__slider = QSlider()
@@ -38,7 +41,6 @@ class MainWindow(QWidget):
         self.__vlayout.addWidget(self.__info_label)
         self.__vlayout.addWidget(self.__slider)
         self.__vlayout.addWidget(self.__switch_status_button)
-        self.__vlayout.setAlignment(Qt.AlignCenter)
 
         self.__main_v_layout = QVBoxLayout()
         self.__main_v_layout.addLayout(self.__vlayout)
@@ -48,12 +50,12 @@ class MainWindow(QWidget):
 
     def __slider_value_changed(self, value: int) -> None:
         self.__value = value
-        self.__info_label.setText(f'Value: {value}     Status: {self.__label_statuses[self.__status]}')
+        self.__info_label.setText(f"{FONT_STYLE}Value: {value}     Status: {self.__label_statuses[self.__status]}</font>")
 
     def __switch_status(self) -> None:
         self.__status = not self.__status
 
-        self.__info_label.setText(f'Value: {self.__value}      Status: {self.__label_statuses[self.__status]}')
+        self.__info_label.setText(f"{FONT_STYLE}Value: {self.__value}     Status: {self.__label_statuses[self.__status]}</font>")
         self.__switch_status_button.setText(self.__button_statuses[self.__status])
 
 
