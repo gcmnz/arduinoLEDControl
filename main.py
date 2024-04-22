@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QWidget, QApplication, QVBoxLayout, QLabel, QSlider,
 from PyQt5.Qt import Qt
 
 from src import CSS_STYLES, FONT_STYLE
+from src import LEDControl
 
 
 class MainWindow(QWidget):
@@ -15,6 +16,9 @@ class MainWindow(QWidget):
 
         self.__value: int = 0
         self.__status: bool = False
+
+        self.__led_control = LEDControl()
+        self.__led_control.set_brightness(self.__value)
 
         self.__label_statuses: dict[bool, str] = {
             True: 'On',
@@ -52,11 +56,15 @@ class MainWindow(QWidget):
         self.__value = value
         self.__info_label.setText(f"{FONT_STYLE}Value: {value}     Status: {self.__label_statuses[self.__status]}</font>")
 
+        self.__led_control.set_brightness(value)
+
     def __switch_status(self) -> None:
         self.__status = not self.__status
 
         self.__info_label.setText(f"{FONT_STYLE}Value: {self.__value}     Status: {self.__label_statuses[self.__status]}</font>")
         self.__switch_status_button.setText(self.__button_statuses[self.__status])
+
+        self.__led_control.set_status(self.__status)
 
 
 def main() -> None:
