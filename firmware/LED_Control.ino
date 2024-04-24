@@ -6,17 +6,13 @@ void setup() {
 
 void loop() {
   if (Serial.available() > 0) { // Проверяем, есть ли входные данные
-    int command = Serial.read(); // Читаем входные данные до символа новой строки
-  
-    if (0 <= command <= 99) {
-      // analogWrite
-    }
+    char command = Serial.read(); // Читаем входные данные до символа новой строки
 
-    else if (command == 100) {
+    if (command == 'd') {
       digitalWrite(LED_BUILTIN, LOW); // Выключаем светодиод
     }
 
-    else if (command == 101) {
+    else if (command == 'e') {
       digitalWrite(LED_BUILTIN, HIGH); // Включаем светодиод
     }
   }
