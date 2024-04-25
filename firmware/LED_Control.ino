@@ -1,19 +1,33 @@
+long value = 0;  // Значение яркости для пина (0-255)
+bool status = false;
+uint32_t PIN = 6;  // D6 PIN
+
 void setup() {
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, LOW); // Выключаем светодиод при инициализации
+  pinMode(PIN, OUTPUT);
+  analogWrite(PIN, 0);
   Serial.begin(9600);
 }
 
 void loop() {
   if (Serial.available() > 0) { // Проверяем, есть ли входные данные
-    char command = Serial.read(); // Читаем входные данные до символа новой строки
+    uint32_t command = Serial.read(); // Читаем входные данные до символа новой строки
 
     if (command == 'd') {
-      digitalWrite(LED_BUILTIN, LOW); // Выключаем светодиод
+      analogWrite(PIN, 0);
+      status = false;
     }
 
     else if (command == 'e') {
-      digitalWrite(LED_BUILTIN, HIGH); // Включаем светодиод
+      analogWrite(PIN, value);
+      status = true;
+    }
+
+    else if (0 <= command <= 99) {
+      value = map(command, 0, 99, 0, 255);
+
+      if (status) {
+        analogWrite(PIN, value);
+      }
     }
   }
 }

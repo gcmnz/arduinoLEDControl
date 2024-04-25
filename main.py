@@ -18,7 +18,6 @@ class MainWindow(QWidget):
         self.__status: bool = False
 
         self.__led_control = LEDControl()
-        self.__led_control.set_brightness(self.__value)
 
         self.__label_statuses: dict[bool, str] = {
             True: 'On',
@@ -64,7 +63,7 @@ class MainWindow(QWidget):
         self.__info_label.setText(f"{FONT_STYLE}Value: {self.__value}     Status: {self.__label_statuses[self.__status]}</font>")
         self.__switch_status_button.setText(self.__button_statuses[self.__status])
 
-        self.__led_control.set_status(self.__status)
+        self.__led_control.switch_status(self.__status)
 
 
 def main() -> None:
